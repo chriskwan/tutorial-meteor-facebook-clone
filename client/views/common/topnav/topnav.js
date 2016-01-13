@@ -14,8 +14,8 @@ Template.topnav.events({
 // Template Helper Map
 Template.topnav.helpers({
     fullname: function(user) {
-        return (user && user.profile && user.profile.name) ?
-            user.profile.name.first + " " + user.profile.name.last : null;
+        return (user && user.profile) ?
+            user.profile.firstname + " " + user.profile.lastname : null;
     },
     friendRequestCount: function() {
         return 0;
