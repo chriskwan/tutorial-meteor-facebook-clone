@@ -33,3 +33,23 @@ Template.profileDetails.events({
         alert("Soon!");
     }
 });
+
+Template.profileDetails.onCreated(function() {
+    var self = this;
+    var username = Router.current().params.username;
+    // When the template is crated,
+    // an autorun function is called once to subscribe on the current user's profile
+    // Anytime the username in the router changes,
+    // it is going to resubscribe because we are going to need the new user's profile info
+    self.autorun(function() {
+        username = Router.current().params.username;
+        self.subscribe("userData", username, {
+            onReady: function() {
+                var user = Meteor.users.findOne({username: username});
+                if (!user) {
+                    Router.go("/");
+                }
+            }
+        });
+    });
+});
