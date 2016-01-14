@@ -36,6 +36,19 @@ Template.profileFeed.helpers({
         } else {
             return "Post to their wall!";
         }
+    },
+    stories: function() {
+        var profileUser = Meteor.users.findOne({
+            username: Router.current().params.username}, {
+                fields: {
+                    _id: 1
+                }
+            }
+        );
+        return profileUser ? Stories.find(
+            { createdFor: profileUser._id },
+            { sort: { createdAt: -1 }, limit: 10 }
+        ) : [];
     }
 });
 
