@@ -38,3 +38,17 @@ Template.profileFeed.helpers({
         }
     }
 });
+
+// This blocks happens once this template is created
+Template.profileFeed.onCreated(function() {
+    var self = this;
+    // This subscribes to "profileStories"
+    // with the username in the router as the first argument
+    // It is inside the autorun function,
+    // so that if the user visits another profile,
+    // it will resubscribe and get the correct documents
+    Tracker.autorun(function() {
+        var username = Router.current().params.username;
+        self.subscribe("profileStories", username);
+    });
+});
