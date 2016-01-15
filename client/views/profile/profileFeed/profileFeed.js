@@ -61,7 +61,12 @@ Template.profileFeed.onCreated(function() {
     // so that if the user visits another profile,
     // it will resubscribe and get the correct documents
     Tracker.autorun(function() {
-        var username = Router.current().params.username;
-        self.subscribe("profileStories", username);
+        var usernameFromUrl = Router.current().params.username;
+        var currentUser = Meteor.user();
+        var username =  usernameFromUrl || 
+            (currentUser ? currentUser.username : null);
+        if (username) {
+            self.subscribe("profileStories", username);
+        }
     });
 });
